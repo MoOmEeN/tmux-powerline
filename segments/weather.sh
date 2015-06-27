@@ -11,6 +11,7 @@ if shell_is_bsd; then
 else
     TMUX_POWERLINE_SEG_WEATHER_GREP_DEFAULT="grep"
 fi
+TMUX_POWERLINE_SEG_WEATHER_LOCATION="753692"
 
 
 generate_segmentrc() {
@@ -28,7 +29,7 @@ export TMUX_POWERLINE_SEG_WEATHER_GREP="${TMUX_POWERLINE_SEG_WEATHER_GREP_DEFAUL
 # 1. Go to Yahoo weather http://weather.yahoo.com/
 # 2. Find the weather for you location
 # 3. Copy the last numbers in that URL. e.g. "http://weather.yahoo.com/united-states/california/newport-beach-12796587/" has the numbers "12796587"
-export TMUX_POWERLINE_SEG_WEATHER_LOCATION=""
+export TMUX_POWERLINE_SEG_WEATHER_LOCATION="753692"
 EORC
 	echo "$rccontents"
 }
@@ -62,8 +63,9 @@ __process_settings() {
 		export TMUX_POWERLINE_SEG_WEATHER_GREP="${TMUX_POWERLINE_SEG_WEATHER_GREP_DEFAULT}"
 	fi
 	if [ -z "$TMUX_POWERLINE_SEG_WEATHER_LOCATION" ]; then
-		echo "No weather location specified.";
-		exit 8
+        export TMUX_POWERLINE_SEG_WEATHER_LOCATION="${TMUX_POWERLINE_SEG_WEATHER_LOCATION}"
+		#echo "No weather location specified.";
+		#exit 8
 	fi
 }
 
