@@ -14,7 +14,7 @@ TMUX_POWERLINE_SEG_NOW_PLAYING_NOTE_CHAR_DEFAULT="♫"
 generate_segmentrc() {
 	read -d '' rccontents  << EORC
 # Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, pithos, rdio, rhythmbox, spotify, spotify_wine}.
-export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER=""
+export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER="spotify_elementary"
 # Maximum output length.
 export TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN="${TMUX_POWERLINE_SEG_NOW_PLAYING_MAX_LEN_DEFAULT}"
 # How to handle too long strings. Can be {trim, roll}.
@@ -61,6 +61,7 @@ run_segment() {
 		"rhythmbox")  np=$(__np_rhythmbox) ;;
 		"spotify")  np=$(__np_spotify) ;;
 		"spotify_wine")  np=$(__np_spotify_native) ;;
+		"spotify_elementary")  np=$(__np_spotify_elementary) ;;
 		*)
 			echo "Unknown music player type [${TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER}]";
 			return 1
@@ -263,7 +264,7 @@ __np_spotify() {
 	echo "$np"
 }
 
-__np_spotify_wine() {
+__np_spotify_native() {
 	[ ! shell_is_linux ] && return 1
 	spotify_id=$(xwininfo -root -tree | grep '("spotify' | cut -f1 -d'"' | sed 's/ //g')
 	echo $spotify_id
@@ -271,4 +272,16 @@ __np_spotify_wine() {
 		np=$(xwininfo -id "$spotify_id" | grep "xwininfo.*Spotify -" | grep -Po "(?<=\"Spotify - ).*(?=\"$)")
 		echo "$np"
 	fi
+}
+
+__np_spotify_elementary() {
+	[ ! shell_is_linux ] && return 1
+	spotify_ids=$(xwininfo -root -tree | grep '("spotify' | cut -f1 -d'"' | sed 's/ //g')
+	for spotify_id in $spotify_ids
+	do
+		title=$(xwininfo -id "$spotify_id" | grep "xwininfo" | grep -Po "(?<=\").*(?=\"$)")
+		if [ "$title" != "spotify" ]; then
+			echo $title
+		fi
+	done
 }
