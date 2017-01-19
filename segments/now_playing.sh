@@ -280,7 +280,7 @@ __np_spotify_elementary() {
 	for spotify_id in $spotify_ids
 	do
 		title=$(xwininfo -id "$spotify_id" | grep "xwininfo" | grep -Po "(?<=\").*(?=\"$)")
-		if [ "$title" != "spotify" ]; then
+		if [ "$title" != "spotify" ] && [ "$title" != "Spotify" ]; then
 			echo $title
 		fi
 	done
