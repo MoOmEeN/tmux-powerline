@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export TMUX_POWERLINE_DIR_HOME="$(dirname $0)"
+export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER="spotify"
 
 source "${TMUX_POWERLINE_DIR_HOME}/config/helpers.sh"
 source "${TMUX_POWERLINE_DIR_HOME}/config/paths.sh"
